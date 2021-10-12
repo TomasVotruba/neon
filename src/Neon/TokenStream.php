@@ -26,6 +26,13 @@ final class TokenStream
 	}
 
 
+	public function setPos(int $pos): self
+	{
+		$this->pos = $pos;
+		return $this;
+	}
+
+
 	public function getPos(): int
 	{
 		return $this->pos;
@@ -36,6 +43,24 @@ final class TokenStream
 	public function getTokens(): array
 	{
 		return $this->tokens;
+	}
+
+
+	public function skipLeft(int $pos, ...$types): int
+	{
+		while (in_array($this->tokens[$pos - 1]->type ?? null, $types, true)) {
+			$pos--;
+		}
+		return $pos;
+	}
+
+
+	public function skipRight(int $pos, ...$types): int
+	{
+		while (in_array($this->tokens[$pos + 1]->type ?? null, $types, true)) {
+			$pos++;
+		}
+		return $pos;
 	}
 
 
